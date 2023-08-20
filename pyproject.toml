@@ -1,0 +1,92 @@
+[tool.poetry]
+name = "short-linker"
+version = "0.0.1"
+description = ""
+authors = ["CapBlood <stalker.anonim@mail.ru>"]
+readme = "README.md"
+# homepage = "https://github.com/CapBlood/lecture-automator.git"
+
+[tool.poetry.dependencies]
+python = ">=3.8, <=3.10"
+fastapi = "^0.101.1"
+uvicorn = "^0.23.2"
+dynaconf = "^3.2.1"
+sqlalchemy = "^2.0.20"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+# консольные утилиты
+[tool.poetry.scripts]
+short-linker = "short_linker.server:run_server"
+
+# пакеты
+[tool.setuptools.packages.find]
+where = ["src"]  # list of folders that contain the packages (["."] by default)
+include = ["short_linker*"]  # package names should match these glob patterns (["*"] by default)
+# exclude = ["multirec.tests*"]  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+
+[tool.isort]
+profile = "black"
+
+# Дополнительные настройки pytest - для расчёта процентного покрытия тестами пакета multirec
+[tool.pytest.ini_options]
+addopts = """
+--cov-report term-missing \
+--cov src/lecture_automator -ra"""
+
+# Дополнительные настройки для покрытия
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
+
+[tool.ruff]
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+select = ["I", "E", "W", "F", "PT"]
+ignore = []
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ['W292', 'W293', 'W291', 'I001', 'F401']
+unfixable = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Same as Black.
+line-length = 88
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Assume Python 3.10.
+target-version = "py38"
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
